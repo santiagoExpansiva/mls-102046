@@ -44,8 +44,8 @@ jobs:
         working-directory: mls-base
         run: pnpm run buildCI "$PROJECT"
         env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-          COLLAB_TOKEN: ${{ secrets.COLLAB_TOKEN }}
+          GH_PAT: ${{ vars.GH_PAT }}
+          COLLAB_TOKEN: ${{ vars.COLLAB_TOKEN }}
           COLLAB_DRIVER: GitHub
 
       - name: Commit compiled files
