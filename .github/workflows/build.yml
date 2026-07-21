@@ -11,16 +11,15 @@ jobs:
     permissions:
       contents: write
     env:
-      PROJECT: ${{ github.event.repository.name }}   # ex.: mls-102046
+      PROJECT: ${{ github.event.repository.name }}
 
     steps:
       - name: Checkout mls-base
         uses: actions/checkout@v4
         with:
           repository: expansiva/mls-base
-          token: ${{ secrets.GH_PAT }}
           path: mls-base
-          
+
       - name: Checkout projeto atual dentro do mls-base
         uses: actions/checkout@v4
         with:
@@ -37,10 +36,6 @@ jobs:
         with:
           version: 10
 
-      - name: Configurar git para clones privados
-        run: |
-          git config --global url."https://x-access-token:${{ secrets.GH_PAT }}@github.com/".insteadOf "https://github.com/"
-
       - name: Install mls-base
         working-directory: mls-base
         run: pnpm install
@@ -49,8 +44,9 @@ jobs:
         working-directory: mls-base
         run: pnpm run buildCI "$PROJECT"
         env:
-           COLLAB_TOKEN: ${{ secrets.COLLAB_TOKEN }}
-           COLLAB_DRIVER: GitHub
+          GH_PAT: ${{ secrets.GH_PAT }}
+          COLLAB_TOKEN: ${{ secrets.COLLAB_TOKEN }}
+          COLLAB_DRIVER: GitHub
 
       - name: Commit compiled files
         working-directory: mls-base
